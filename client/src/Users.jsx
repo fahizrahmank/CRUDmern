@@ -2,16 +2,25 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-
-
 const Users = () => {
   const [users, setUsers] = useState([]);
 
-  useEffect(()=> {
-    axios.get('http://localhost:3001')
-    .then(result => setUsers(result.data))
-    .catch(err=> console.log(err))
-  })
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001")
+      .then((result) => setUsers(result.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const handleDelete = (id) => {
+    axios
+      .delete("http://localhost:3001/deleteUser/" + id)
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div style={{ paddingLeft: "300px", paddingTop: "90px" }}>
@@ -40,13 +49,18 @@ const Users = () => {
               <td>{user.email}</td>
               <td>{user.age}</td>
               <td>
-                <Link to={`/update${user._id}`} className="btb btn-success">
+                <Link to={`/update/${user._id}`} className="btb btn-success">
                   {" "}
                   <button type="button" className="btn btn-outline-success">
                     Edit
                   </button>
                 </Link>{" "}
-                <button className="btn btn-outline-danger" >Delete</button>
+                <button
+                  className="btn btn-outline-danger"
+                  onClick={(e) => handleDelete(user._id)}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}

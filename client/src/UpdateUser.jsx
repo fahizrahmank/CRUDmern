@@ -24,13 +24,29 @@ function UpdateUser() {
 
   useEffect(()=> {
     axios.get('http://localhost:3001/getUser/'+ id)
-    .then(result => console.log(result))
-    .catch(err=> console.log(err))
-  })
+    .then(result => {
+      console.log(result)
+    setName(result.data.name)
+    setEmail(result.data.email)
+    setAge(result.data.age)
 
+    })
+    .catch(err=> console.log(err))
+  },[])
+
+
+  const update = (e) => {
+    e.preventDefault();
+    axios
+      .put("http://localhost:3001/updateUser/"+id, { name, email, age })
+      .then((result) => console.log(result))
+      .catch((err) => {
+        console.log(err)});
+        nav('/')
+  };
   return (
     <div>
-      <form action="">
+      <form action="" onSubmit={update}>
         <MDBContainer fluid>
           <MDBRow className="d-flex justify-content-center align-items-center">
             <MDBCol lg="9" className="my-5">
@@ -45,10 +61,12 @@ function UpdateUser() {
 
                     <MDBCol md="9" className="pe-5">
                       <MDBInput
-                        label="Email"
+                        label="fullname"
                         size="lg"
                         id="form1"
                         type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                       />
                     </MDBCol>
                   </MDBRow>
@@ -66,6 +84,9 @@ function UpdateUser() {
                         size="lg"
                         id="form2"
                         type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+
                       />
                     </MDBCol>
                   </MDBRow>
@@ -77,6 +98,8 @@ function UpdateUser() {
                       size="lg"
                       id="form5"
                       type="rel"
+                      value={age}
+                      onChange={(e) => setAge(e.target.value)}
                     />
                   </MDBCol>
 
