@@ -40,7 +40,7 @@ const Users = () => {
               <td>{user.email}</td>
               <td>{user.age}</td>
               <td>
-                <Link to={`//update${user._id}`} className="btb btn-success">
+                <Link to={`/update${user._id}`} className="btb btn-success">
                   {" "}
                   <button type="button" className="btn btn-outline-success">
                     Edit
